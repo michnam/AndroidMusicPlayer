@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@+id/playlists"
+            android:enabled="true"
+            android:icon="@drawable/ic_list_24px"
+            android:title="Playlists"/>
+
+    <item
+            android:id="@+id/favourites"
+            android:enabled="true"
+            android:icon="@drawable/ic_favorite_border_24px"
+            android:title="Favourites"/>
+
+    <item
+            android:id="@+id/search"
+            android:enabled="true"
+            android:icon="@drawable/ic_search_24px"
+            android:title="Search"/>
+
+</menu>
