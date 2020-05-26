@@ -1,7 +1,10 @@
 package pl.musicplayer;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -12,6 +15,8 @@ import pl.musicplayer.fragments.SearchFragment;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener
 {
+
+    MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -25,6 +30,28 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         //getting bottom navigation view and attaching the listener
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(this);
+    }
+
+    public void play(View v) {
+        if (mediaPlayer == null) {
+            mediaPlayer = MediaPlayer.create(this, R.raw.betterdays);
+        }
+        mediaPlayer.start();
+    }
+
+    public void pause(View v) {
+        if(mediaPlayer != null) {
+            mediaPlayer.pause();
+        }
+    }
+
+    public void stop(View v) {
+        if(mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+            Toast.makeText(this, "MediaPlayer released", Toast.LENGTH_LONG).show();
+        }
+        mediaPlayer.stop();
     }
 
     @Override
