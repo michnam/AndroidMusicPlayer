@@ -14,8 +14,7 @@ import pl.musicplayer.repositories.SongRepository;
 
 public class PlayerFragment extends Fragment {
     private MediaPlayer mediaPlayer;
-
-    public static int songId = 1;
+    private static int songId = R.raw.betterdays;
     private TextView songTitle;
     private TextView songAuthor;
     private SongRepository songRepository;
@@ -32,6 +31,11 @@ public class PlayerFragment extends Fragment {
 
         LayoutInflater lf = getActivity().getLayoutInflater();
         view =  lf.inflate(R.layout.fragment_player, container, false);
+
+        System.out.println(R.raw.betterdays);
+        System.out.println(R.raw.buddy);
+        System.out.println(R.raw.dubstep);
+
 
         btnPlay = (ImageButton) view.findViewById(R.id.btnPlay);
         btnPrevious = (ImageButton) view.findViewById(R.id.btnPrevious);
@@ -94,7 +98,7 @@ public class PlayerFragment extends Fragment {
     private void play(View v) {
         shouldPlay = true;
         if (mediaPlayer == null) {
-            mediaPlayer = MediaPlayer.create(getActivity(), R.raw.betterdays);
+            mediaPlayer = MediaPlayer.create(getActivity(), songId);
         }
         mediaPlayer.start();
         setPlayButtonIcon(v);

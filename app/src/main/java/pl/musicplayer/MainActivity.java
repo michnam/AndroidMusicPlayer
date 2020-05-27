@@ -12,6 +12,7 @@ import pl.musicplayer.fragments.SearchFragment;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener
 {
+    public static int songId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -19,7 +20,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
-
+        songId = R.raw.betterdays;
         loadFragment(new PlayerFragment());
 
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
