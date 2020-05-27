@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().hide(); // hide the title bar
 
         //loading the default fragment
         loadFragment(new PlayerFragment());
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             shouldPlay = true;
         }
     }
-    
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Fragment fragment = null;
