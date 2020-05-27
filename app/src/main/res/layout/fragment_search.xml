@@ -4,12 +4,14 @@
                 android:layout_height="match_parent">
 
     <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:text="@null"
             android:ems="10"
             android:layout_alignParentTop="true" android:layout_marginTop="50dp"
-            android:id="@+id/searchSongField" android:layout_alignParentEnd="true" android:layout_marginEnd="39dp"/>
+            android:id="@+id/searchSongField" android:layout_alignParentEnd="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"/>
 
 </RelativeLayout>
