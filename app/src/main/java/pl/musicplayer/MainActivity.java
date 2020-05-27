@@ -4,6 +4,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +17,9 @@ import pl.musicplayer.fragments.SearchFragment;
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener
 {
 
-    MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer;
+    private ImageButton btnPlay;
+    private boolean shouldPlay = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -32,16 +35,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         navigation.setOnNavigationItemSelectedListener(this);
     }
 
-    public void play(View v) {
-        if (mediaPlayer == null) {
-            mediaPlayer = MediaPlayer.create(this, R.raw.betterdays);
-        }
-        mediaPlayer.start();
-    }
-
-    public void pause(View v) {
-        if(mediaPlayer != null) {
-            mediaPlayer.pause();
+    public void playOrPause(View v) {
+        btnPlay = (ImageButton) findViewById(R.id.btnPlay);
+        if(shouldPlay) {
+            play(v);
+        } else {
+            pause(v);
         }
     }
 
@@ -54,6 +53,24 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         mediaPlayer.stop();
     }
 
+
+    private void play(View v) {
+        if (mediaPlayer == null) {
+            mediaPlayer = MediaPlayer.create(this, R.raw.betterdays);
+        }
+        mediaPlayer.start();
+        btnPlay.setImageResource(R.drawable.pause);
+        shouldPlay = false;
+    }
+
+    private void pause(View v) {
+        if(mediaPlayer != null) {
+            mediaPlayer.pause();
+            btnPlay.setImageResource(R.drawable.play);
+            shouldPlay = true;
+        }
+    }
+    
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Fragment fragment = null;

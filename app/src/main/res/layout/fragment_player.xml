@@ -1,28 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
+                xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
                 android:layout_height="match_parent">
-    
-    <Button
-            android:text="Play"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true" android:layout_marginBottom="272dp" android:id="@+id/play"
-            android:onClick="play"/>
 
-    <Button
-            android:text="Pause"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true" android:layout_marginBottom="209dp" android:id="@+id/pause"
-            android:onClick="pause"/>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp" android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp" android:layout_marginBottom="10dp" android:gravity="center">
 
-    <Button
-            android:text="Stop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true" android:layout_marginBottom="148dp" android:id="@+id/stop"
-            android:onClick="stop"/>
+        <TextView
+                android:id="@+id/songTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="Beautiful day"
+                android:textSize="30sp"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:textColor="@color/design_default_color_secondary_variant"
+        />
+
+        <TextView
+                android:id="@+id/songAuthor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="U2"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:layout_gravity="center"
+                android:background="@null"
+                android:textColor="@color/design_default_color_secondary_variant"
+        />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+            android:id="@+id/navigation"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
+            android:layout_alignParentBottom="true"
+            android:background="@null"
+            android:gravity="center"
+            android:layout_marginBottom="30dp">
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@null"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+            <ImageButton
+                    android:id="@+id/btnPrevious"
+                    android:src="@drawable/previous"
+                    android:background="@null"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:padding="15dp"
+            />
+
+            <ImageButton
+                    android:id="@+id/btnPlay"
+                    android:src="@drawable/play"
+                    android:background="@null"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:onClick="playOrPause"
+            />
+
+            <ImageButton
+                    android:id="@+id/btnNext"
+                    android:src="@drawable/next"
+                    android:background="@null"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:padding="15dp"
+            />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 
 </RelativeLayout>
