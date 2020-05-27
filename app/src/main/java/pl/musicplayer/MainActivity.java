@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import pl.musicplayer.fragments.PlayerFragment;
-import pl.musicplayer.fragments.PlaylistsFragment;
 import pl.musicplayer.fragments.SearchFragment;
+import pl.musicplayer.fragments.SongListFragment;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener
 {
@@ -36,8 +36,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fragment = new PlayerFragment();
                 break;
 
-            case R.id.playlists:
-                fragment = new PlaylistsFragment();
+            case R.id.songs:
+                fragment = new SongListFragment();
                 break;
 
             case R.id.search:

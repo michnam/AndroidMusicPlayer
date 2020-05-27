@@ -3,12 +3,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-    <TextView
+    <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="Search"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+            android:inputType="textPersonName"
+            android:text="@null"
+            android:ems="10"
+            android:layout_alignParentTop="true" android:layout_marginTop="50dp"
+            android:id="@+id/searchSongField" android:layout_alignParentEnd="true" android:layout_marginEnd="39dp"/>
 
 </RelativeLayout>

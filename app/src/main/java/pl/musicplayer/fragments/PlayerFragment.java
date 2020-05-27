@@ -32,11 +32,6 @@ public class PlayerFragment extends Fragment {
         LayoutInflater lf = getActivity().getLayoutInflater();
         view =  lf.inflate(R.layout.fragment_player, container, false);
 
-        System.out.println(R.raw.betterdays);
-        System.out.println(R.raw.buddy);
-        System.out.println(R.raw.dubstep);
-
-
         btnPlay = (ImageButton) view.findViewById(R.id.btnPlay);
         btnPrevious = (ImageButton) view.findViewById(R.id.btnPrevious);
         btnNext = (ImageButton) view.findViewById(R.id.btnNext);
