@@ -12,6 +12,7 @@ import pl.musicplayer.R;
 
 
 public class SearchFragment extends Fragment {
+    public static String searchPhrase;
     private EditText editText;
     private View view;
 
@@ -28,6 +29,7 @@ public class SearchFragment extends Fragment {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     // Perform action on key press
+                    searchPhrase = editText.getText().toString();
                     getActivity().getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.fragment_container, new SongListFragment())

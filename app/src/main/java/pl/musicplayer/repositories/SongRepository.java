@@ -31,4 +31,8 @@ public class SongRepository {
         }
         throw new Error("Could not find song");
     }
+
+    public List<Song> searchByTitle(String titlePhrase) {
+        return new ArrayList<>();
+    }
 }

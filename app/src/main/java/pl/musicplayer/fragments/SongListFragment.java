@@ -15,6 +15,8 @@ import pl.musicplayer.models.Song;
 import pl.musicplayer.models.SongListAdapter;
 import pl.musicplayer.repositories.SongRepository;
 
+import static pl.musicplayer.fragments.SearchFragment.searchPhrase;
+
 public class SongListFragment extends Fragment {
     private SongRepository songRepository;
     private RecyclerView recyclerView;
@@ -30,11 +32,21 @@ public class SongListFragment extends Fragment {
         view =  lf.inflate(R.layout.fragment_playlists, container, false);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        SongListAdapter adapter = new SongListAdapter(songRepository.getSongs().stream().toArray(n -> new Song[n]));
+        SongListAdapter adapter = new SongListAdapter(getSongs());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
 
         return view;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private Song[] getSongs() {
+        if(searchPhrase == null) {
+            return songRepository.getSongs().stream().toArray(n -> new Song[n]);
+        } else {
+            Song[] song = { songRepository.getById(R.raw.betterdays) };
+            return song;
+        }
     }
 }
