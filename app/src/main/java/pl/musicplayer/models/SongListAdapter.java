@@ -42,7 +42,6 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ViewHo
                         .beginTransaction()
                         .replace(R.id.fragment_container, new PlayerFragment())
                         .commit();
-                System.out.println(myListData.getId());
                 songId = myListData.getId();
                 }
             });

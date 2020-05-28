@@ -40,6 +40,7 @@ public class SongListFragment extends Fragment {
         return view;
     }
 
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     private Song[] getSongs() {
         if(searchPhrase == null) {

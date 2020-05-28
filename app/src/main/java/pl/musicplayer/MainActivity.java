@@ -1,5 +1,6 @@
 package pl.musicplayer;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
@@ -20,13 +21,29 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        initializeView();
         getSupportActionBar().hide();
         songId = R.raw.betterdays;
         loadFragment(new PlayerFragment());
+    }
+
+    public void initializeView() {
+        int orientation = getResources().getConfiguration().orientation;
+        loadFragment(new PlayerFragment());
+        if(orientation == Configuration.ORIENTATION_PORTRAIT) {
+            setContentView(R.layout.activity_main);
+        } else {
+            setContentView(R.layout.activity_main_horizontal);
+        }
 
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        initializeView();
+        super.onConfigurationChanged(newConfig);
     }
 
     @Override
@@ -52,11 +69,20 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     private boolean loadFragment(Fragment fragment) {
+        int orientation = getResources().getConfiguration().orientation;
+
         if (fragment != null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .commit();
+            if(orientation == Configuration.ORIENTATION_PORTRAIT) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, fragment)
+                        .commit();
+            } else {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container_list, fragment)
+                        .commit();
+            }
             return true;
         }
         return false;

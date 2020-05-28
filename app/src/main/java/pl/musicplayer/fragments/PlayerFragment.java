@@ -66,10 +66,6 @@ public class PlayerFragment extends Fragment {
         songAuthor = (TextView) view.findViewById(R.id.songAuthor);
         songAuthor.setText(songRepository.getById(songId).getAuthor());
 
-        System.out.println(songId);
-        System.out.println(songRepository.getById(songId).getTitle());
-        System.out.println(songRepository.getById(songId).getAuthor());
-
         setPlayButtonIcon(view);
         return view;
     }
