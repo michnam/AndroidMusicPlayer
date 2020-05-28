@@ -1,5 +1,6 @@
 package pl.musicplayer.fragments;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -30,10 +31,18 @@ public class SearchFragment extends Fragment {
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     // Perform action on key press
                     searchPhrase = editText.getText().toString();
-                    getActivity().getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.fragment_container, new SongListFragment())
-                            .commit();
+                    int orientation = getResources().getConfiguration().orientation;
+                    if(orientation == Configuration.ORIENTATION_PORTRAIT) {
+                        getActivity().getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.fragment_container, new SongListFragment())
+                                .commit();
+                    } else {
+                        getActivity().getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.fragment_container_list, new SongListFragment())
+                                .commit();
+                    }
                     return true;
                 }
                 return false;
