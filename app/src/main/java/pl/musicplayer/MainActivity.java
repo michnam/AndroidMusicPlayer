@@ -31,14 +31,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         if(orientation == Configuration.ORIENTATION_PORTRAIT) {
             loadFragment(R.id.fragment_container, new PlayerFragment());
             setContentView(R.layout.activity_main);
+
+            BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
+            navigation.setOnNavigationItemSelectedListener(this);
         } else {
             loadFragment(R.id.fragment_container_player, new PlayerFragment());
+            loadFragment(R.id.fragment_container_search, new SearchFragment());
             loadFragment(R.id.fragment_container_list, new SongListFragment());
             setContentView(R.layout.activity_main_horizontal);
         }
-
-        BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
-        navigation.setOnNavigationItemSelectedListener(this);
     }
 
     @Override
