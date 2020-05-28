@@ -1,19 +1,25 @@
 package pl.musicplayer.models;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import pl.musicplayer.R;
+import pl.musicplayer.fragments.PlayerFragment;
+
+import static pl.musicplayer.MainActivity.songId;
 
 public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ViewHolder> {
     private Song[] listdata;
+    private Context context;
 
-    public SongListAdapter(Song[] listdata) {
+    public SongListAdapter(Song[] listdata, Context context) {
         this.listdata = listdata;
+        this.context = context;
     }
 
     @Override
@@ -32,7 +38,12 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ViewHo
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(),"click on item: "+ myListData.getTitle(),Toast.LENGTH_LONG).show();
+                ((AppCompatActivity) context).getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new PlayerFragment())
+                        .commit();
+                System.out.println(myListData.getId());
+                songId = myListData.getId();
                 }
             });
         }

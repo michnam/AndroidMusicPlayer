@@ -32,7 +32,7 @@ public class SongListFragment extends Fragment {
         view =  lf.inflate(R.layout.fragment_playlists, container, false);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        SongListAdapter adapter = new SongListAdapter(getSongs());
+        SongListAdapter adapter = new SongListAdapter(getSongs(), getActivity());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);

@@ -12,9 +12,10 @@ import org.jetbrains.annotations.Nullable;
 import pl.musicplayer.R;
 import pl.musicplayer.repositories.SongRepository;
 
+import static pl.musicplayer.MainActivity.songId;
+
 public class PlayerFragment extends Fragment {
     private MediaPlayer mediaPlayer;
-    private static int songId = R.raw.betterdays;
     private TextView songTitle;
     private TextView songAuthor;
     private SongRepository songRepository;
@@ -27,6 +28,10 @@ public class PlayerFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if(songId == 0) {
+            songId = R.raw.betterdays;
+        }
+
         songRepository = new SongRepository();
 
         LayoutInflater lf = getActivity().getLayoutInflater();
@@ -60,6 +65,10 @@ public class PlayerFragment extends Fragment {
 
         songAuthor = (TextView) view.findViewById(R.id.songAuthor);
         songAuthor.setText(songRepository.getById(songId).getAuthor());
+
+        System.out.println(songId);
+        System.out.println(songRepository.getById(songId).getTitle());
+        System.out.println(songRepository.getById(songId).getAuthor());
 
         setPlayButtonIcon(view);
         return view;
