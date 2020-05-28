@@ -1,6 +1,7 @@
 package pl.musicplayer.models;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,10 +39,18 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ViewHo
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((AppCompatActivity) context).getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new PlayerFragment())
-                        .commit();
+                int orientation = ((AppCompatActivity) context).getResources().getConfiguration().orientation;
+                if(orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    ((AppCompatActivity) context).getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, new PlayerFragment())
+                            .commit();
+                } else {
+                    ((AppCompatActivity) context).getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container_player, new PlayerFragment())
+                            .commit();
+                }
                 songId = myListData.getId();
                 }
             });

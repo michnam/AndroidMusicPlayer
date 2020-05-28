@@ -7,21 +7,43 @@
     tools:context=".MainActivity" android:orientation="horizontal"
 >
 
-    <FrameLayout
-            android:id="@+id/fragment_container_player"
-            android:layout_width="match_parent"
+    <LinearLayout
+            android:layout_width="340dp"
             android:layout_height="match_parent"
-            android:layout_marginBottom="56dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:orientation="vertical"
+            android:layout_margin="10dp"
+            android:gravity="left"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/linearLayout2">
 
-    <FrameLayout
-            android:id="@+id/fragment_container_list"
-            android:layout_width="match_parent"
+        <FrameLayout
+                android:id="@+id/fragment_container_player"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="56dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="340dp"
             android:layout_height="match_parent"
-            android:layout_marginBottom="56dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:orientation="vertical"
+            android:layout_marginRight="20dp"
+            android:gravity="right"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+            tools:layout_editor_absoluteY="10dp">
+
+        <FrameLayout
+                android:id="@+id/fragment_container_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="56dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+    </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"

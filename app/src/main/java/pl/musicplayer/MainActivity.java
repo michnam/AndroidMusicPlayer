@@ -24,15 +24,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         initializeView();
         getSupportActionBar().hide();
         songId = R.raw.betterdays;
-        loadFragment(new PlayerFragment());
     }
 
     public void initializeView() {
         int orientation = getResources().getConfiguration().orientation;
-        loadFragment(new PlayerFragment());
         if(orientation == Configuration.ORIENTATION_PORTRAIT) {
+            loadFragment(R.id.fragment_container, new PlayerFragment());
             setContentView(R.layout.activity_main);
         } else {
+            loadFragment(R.id.fragment_container_player, new PlayerFragment());
+            loadFragment(R.id.fragment_container_list, new SongListFragment());
             setContentView(R.layout.activity_main_horizontal);
         }
 
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Fragment fragment = null;
+        int orientation = getResources().getConfiguration().orientation;
 
         switch (item.getItemId()) {
             case R.id.player:
@@ -64,23 +66,26 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 fragment = new SearchFragment();
                 break;
         }
-
-        return loadFragment(fragment);
+        if(orientation == Configuration.ORIENTATION_PORTRAIT) {
+            return loadFragment(R.id.fragment_container, fragment);
+        } else {
+            return loadFragment(R.id.fragment_container_player, fragment);
+        }
     }
 
-    private boolean loadFragment(Fragment fragment) {
+    private boolean loadFragment(int container, Fragment fragment) {
         int orientation = getResources().getConfiguration().orientation;
 
         if (fragment != null) {
             if(orientation == Configuration.ORIENTATION_PORTRAIT) {
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, fragment)
+                        .replace(container, fragment)
                         .commit();
             } else {
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container_list, fragment)
+                        .replace(container, fragment)
                         .commit();
             }
             return true;
