@@ -33,6 +33,13 @@ public class SongRepository {
     }
 
     public List<Song> searchByTitle(String titlePhrase) {
-        return new ArrayList<>();
+        List<Song> songs = getSongs();
+        List<Song> result = new ArrayList<>();
+        for(Song song : songs) {
+            if(song.getTitle().contains(titlePhrase)) {
+                result.add(song);
+            }
+        }
+        return result;
     }
 }

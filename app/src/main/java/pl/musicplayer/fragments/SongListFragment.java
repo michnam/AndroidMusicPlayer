@@ -45,8 +45,7 @@ public class SongListFragment extends Fragment {
         if(searchPhrase == null) {
             return songRepository.getSongs().stream().toArray(n -> new Song[n]);
         } else {
-            Song[] song = { songRepository.getById(R.raw.betterdays) };
-            return song;
+            return songRepository.searchByTitle(searchPhrase).stream().toArray(n -> new Song[n]);
         }
     }
 }
