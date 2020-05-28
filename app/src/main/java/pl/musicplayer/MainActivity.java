@@ -10,6 +10,8 @@ import pl.musicplayer.fragments.PlayerFragment;
 import pl.musicplayer.fragments.SearchFragment;
 import pl.musicplayer.fragments.SongListFragment;
 
+import static pl.musicplayer.fragments.SearchFragment.searchPhrase;
+
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener
 {
     public static int songId;
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
             case R.id.songs:
                 fragment = new SongListFragment();
+                searchPhrase = null;
                 break;
 
             case R.id.search:
