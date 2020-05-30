@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onCreate(savedInstanceState);
         initializeView();
         getSupportActionBar().hide();
-        songId = R.raw.betterdays;
+        songId = 0;
 
 
         startService();

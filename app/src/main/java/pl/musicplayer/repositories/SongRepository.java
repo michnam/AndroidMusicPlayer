@@ -1,8 +1,17 @@
 package pl.musicplayer.repositories;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.util.Log;
+
 import pl.musicplayer.models.Song;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class SongRepository {
@@ -16,14 +25,23 @@ public class SongRepository {
 
 
     public SongRepository() {
-        songs.add(new Song(2131689472, "Beautiful day", "U2"));
-        songs.add(new Song(2131689473, "Nothing else matters", "Metallica"));
-        songs.add(new Song(2131689474, "Everybody hurts", "REM"));
-//        songs.add(new Song(4, "Summer of 69'", "Bryan Adams"));
-//        songs.add(new Song(5, "Szaman", "Paluch"));
+        getAllSongs();
+    }
+
+    private void getAllSongs() {
+        @SuppressLint("SdCardPath") File rootFolder = new File("/sdcard/Music/AndroidMusicPlayer");
+        File[] files = rootFolder.listFiles();
+
+        int counter = 0;
+        for (File file : files) {
+            this.songs.add(new Song(file.getName(), counter));
+            System.out.println("ADDED " + file.getName() + "; " + counter);
+            counter++;
+        }
     }
 
     public Song getById(int id) {
+        System.out.println("GET BY ID: " + id);
         for(Song song : songs) {
             if(song.getId() == id) {
                 return song;

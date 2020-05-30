@@ -1,7 +1,10 @@
 package pl.musicplayer.fragments;
 
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,9 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import org.jetbrains.annotations.Nullable;
+
+import java.io.IOException;
+import java.util.Objects;
 
 import pl.musicplayer.R;
 import pl.musicplayer.repositories.SongRepository;
@@ -33,11 +39,6 @@ public class PlayerFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        if(songId == 0)
-        {
-            songId = R.raw.betterdays;
-        }
-
         songRepository = new SongRepository();
 
         LayoutInflater lf = getActivity().getLayoutInflater();
@@ -52,7 +53,11 @@ public class PlayerFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                playOrPause(view);
+                try {
+                    playOrPause(view);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
         btnPrevious.setOnClickListener(new View.OnClickListener()
@@ -60,7 +65,11 @@ public class PlayerFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                previous(view);
+                try {
+                    previous(view);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
         btnNext.setOnClickListener(new View.OnClickListener()
@@ -68,22 +77,25 @@ public class PlayerFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                next(view);
+                try {
+                    next(view);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
         songTitle = (TextView) view.findViewById(R.id.songTitle);
-        songTitle.setText(songRepository.getById(songId).getTitle());
+        songTitle.setText(songRepository.getSongs().get(songId).getTitle());
 
         songAuthor = (TextView) view.findViewById(R.id.songAuthor);
-        songAuthor.setText(songRepository.getById(songId).getAuthor());
+        songAuthor.setText(songRepository.getSongs().get(songId).getAuthor());
 
         setPlayButtonIcon(view);
         return view;
     }
 
-    public void playOrPause(View v)
-    {
+    public void playOrPause(View v) throws IOException {
         if(shouldPlay)
         {
             pause(v);
@@ -94,30 +106,36 @@ public class PlayerFragment extends Fragment
         }
     }
 
-    public void previous(View v)
-    {
+    public void previous(View v) throws IOException {
         songId--;
+        if (songId < 0)
+            songId = songRepository.getSongs().size() - 1;
         reloadFragment(this);
         setPlayButtonIcon(v);
         stop(v);
         play(v);
     }
 
-    public void next(View v)
-    {
+    public void next(View v) throws IOException {
         songId++;
+        if (songId >= songRepository.getSongs().size())
+            songId = 0;
         reloadFragment(this);
         setPlayButtonIcon(v);
         stop(v);
         play(v);
     }
 
-    private void play(View v)
-    {
+    private void play(View v) throws IOException {
         shouldPlay = true;
         if(mediaPlayer == null)
         {
-            mediaPlayer = MediaPlayer.create(getActivity(), songId);
+            mediaPlayer = new MediaPlayer();
+            String filePath = Environment.getExternalStorageDirectory() + songRepository.getById(songId).getPath();
+            Uri myUri = Uri.parse("file://" + filePath);
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mediaPlayer.setDataSource(Objects.requireNonNull(this.getContext()), myUri);
+            mediaPlayer.prepare();
         }
         mediaPlayer.start();
         setPlayButtonIcon(v);

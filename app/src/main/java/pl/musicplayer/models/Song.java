@@ -1,5 +1,7 @@
 package pl.musicplayer.models;
 
+import android.annotation.SuppressLint;
+
 public class Song {
     public int getId() {
         return id;
@@ -22,13 +24,23 @@ public class Song {
         this.author = author;
     }
 
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     private int id;
     private String title;
     private String author;
+    private String path;
 
-    public Song(int id, String title, String author) {
+    public Song(String title, int id) {
+        this.path = "/Music/AndroidMusicPlayer/" + title;
         this.id = id;
-        this.title = title;
-        this.author = author;
+        this.author = title.split("_")[0];
+        this.title = title.split("_")[1].replace("-", " ").split("\\.")[0];
     }
 }
