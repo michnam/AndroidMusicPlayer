@@ -7,14 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
 import androidx.fragment.app.Fragment;
+
 import org.jetbrains.annotations.Nullable;
+
 import pl.musicplayer.R;
 import pl.musicplayer.repositories.SongRepository;
 
 import static pl.musicplayer.MainActivity.songId;
 
-public class PlayerFragment extends Fragment {
+public class PlayerFragment extends Fragment
+{
     private MediaPlayer mediaPlayer;
     private TextView songTitle;
     private TextView songAuthor;
@@ -27,35 +31,43 @@ public class PlayerFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if(songId == 0) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
+        if(songId == 0)
+        {
             songId = R.raw.betterdays;
         }
 
         songRepository = new SongRepository();
 
         LayoutInflater lf = getActivity().getLayoutInflater();
-        view =  lf.inflate(R.layout.fragment_player, container, false);
+        view = lf.inflate(R.layout.fragment_player, container, false);
 
         btnPlay = (ImageButton) view.findViewById(R.id.btnPlay);
         btnPrevious = (ImageButton) view.findViewById(R.id.btnPrevious);
         btnNext = (ImageButton) view.findViewById(R.id.btnNext);
 
-        btnPlay.setOnClickListener(new View.OnClickListener() {
+        btnPlay.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 playOrPause(view);
             }
         });
-        btnPrevious.setOnClickListener(new View.OnClickListener() {
+        btnPrevious.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 previous(view);
             }
         });
-        btnNext.setOnClickListener(new View.OnClickListener() {
+        btnNext.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 next(view);
             }
         });
@@ -70,16 +82,20 @@ public class PlayerFragment extends Fragment {
         return view;
     }
 
-    public void playOrPause(View v) {
-        if(shouldPlay) {
+    public void playOrPause(View v)
+    {
+        if(shouldPlay)
+        {
             pause(v);
-        } else {
+        } else
+        {
             shouldPlay = true;
             play(v);
         }
     }
 
-    public void previous(View v) {
+    public void previous(View v)
+    {
         songId--;
         reloadFragment(this);
         setPlayButtonIcon(v);
@@ -87,7 +103,8 @@ public class PlayerFragment extends Fragment {
         play(v);
     }
 
-    public void next(View v) {
+    public void next(View v)
+    {
         songId++;
         reloadFragment(this);
         setPlayButtonIcon(v);
@@ -95,41 +112,52 @@ public class PlayerFragment extends Fragment {
         play(v);
     }
 
-    private void play(View v) {
+    private void play(View v)
+    {
         shouldPlay = true;
-        if (mediaPlayer == null) {
+        if(mediaPlayer == null)
+        {
             mediaPlayer = MediaPlayer.create(getActivity(), songId);
         }
         mediaPlayer.start();
         setPlayButtonIcon(v);
     }
 
-    private void stop(View v) {
-        if(mediaPlayer != null) {
+    private void stop(View v)
+    {
+        if(mediaPlayer != null)
+        {
             mediaPlayer.stop();
             mediaPlayer.release();
             mediaPlayer = null;
         }
     }
 
-    private void pause(View v) {
-        if(mediaPlayer != null) {
+    private void pause(View v)
+    {
+        if(mediaPlayer != null)
+        {
             shouldPlay = false;
             mediaPlayer.pause();
             setPlayButtonIcon(v);
         }
     }
 
-    private void setPlayButtonIcon(View v) {
-        if(shouldPlay) {
+    private void setPlayButtonIcon(View v)
+    {
+        if(shouldPlay)
+        {
             btnPlay.setImageResource(R.drawable.pause);
-        } else {
+        } else
+        {
             btnPlay.setImageResource(R.drawable.play);
         }
     }
 
-    private boolean reloadFragment(Fragment fragment) {
-        if (fragment != null) {
+    private boolean reloadFragment(Fragment fragment)
+    {
+        if(fragment != null)
+        {
             getActivity()
                     .getSupportFragmentManager()
                     .beginTransaction()
