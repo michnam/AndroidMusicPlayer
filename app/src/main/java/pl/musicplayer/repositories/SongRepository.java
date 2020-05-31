@@ -48,4 +48,20 @@ public class SongRepository {
         }
         return result;
     }
+
+    public static Song getNextSong() {
+        currentSongId++;
+        if (currentSongId >= songs.size())
+            currentSongId = 0;
+
+        return songs.get(currentSongId);
+    }
+
+    public static Song getPreviousSong() {
+        currentSongId--;
+        if (currentSongId < 0)
+            currentSongId = songs.size() - 1;
+
+        return songs.get(currentSongId);
+    }
 }
