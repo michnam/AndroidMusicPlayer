@@ -22,17 +22,12 @@ import static pl.musicplayer.fragments.SearchFragment.searchPhrase;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener
 {
-
-
-    public static int songId;
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         initializeView();
         getSupportActionBar().hide();
-        songId = 0;
 
 
         startService();

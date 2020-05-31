@@ -16,13 +16,11 @@ import java.util.List;
 
 public class PlaylistsFragment extends Fragment {
     private List<Song> songList = new ArrayList<>();
-    private SongRepository songRepository;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        songRepository = new SongRepository();
-        songList = songRepository.getSongs();
+        songList = SongRepository.songs;
         return inflater.inflate(R.layout.fragment_playlists, null);
     }
 }

@@ -11,8 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import pl.musicplayer.R;
 import pl.musicplayer.fragments.PlayerFragment;
+import pl.musicplayer.repositories.SongRepository;
 
-import static pl.musicplayer.MainActivity.songId;
 
 public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ViewHolder> {
     private Song[] listdata;
@@ -51,7 +51,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ViewHo
                             .replace(R.id.fragment_container_player, new PlayerFragment())
                             .commit();
                 }
-                songId = myListData.getId();
+                SongRepository.currentSongId = myListData.getId();
                 }
             });
         }

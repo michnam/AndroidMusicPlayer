@@ -15,33 +15,22 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class SongRepository {
-    private List<Song> songs = new ArrayList<>();
-    public List<Song> getSongs() {
-        return songs;
-    }
-    public void setSongs(List<Song> songs) {
-        this.songs = songs;
-    }
+    public static List<Song> songs = getAllSongs();
+    public static int currentSongId = 0;
 
-
-    public SongRepository() {
-        getAllSongs();
-    }
-
-    private void getAllSongs() {
+    private static List<Song> getAllSongs() {
         @SuppressLint("SdCardPath") File rootFolder = new File("/sdcard/Music/AndroidMusicPlayer");
         File[] files = rootFolder.listFiles();
+        List<Song> res = new ArrayList<>();
 
-        int counter = 0;
-        for (File file : files) {
-            this.songs.add(new Song(file.getName(), counter));
-            System.out.println("ADDED " + file.getName() + "; " + counter);
-            counter++;
+        for (int i = 0; i < files.length; i++) {
+            res.add(new Song(files[i].getName(), i));
         }
+
+        return res;
     }
 
-    public Song getById(int id) {
-        System.out.println("GET BY ID: " + id);
+    public static Song getById(int id) {
         for(Song song : songs) {
             if(song.getId() == id) {
                 return song;
@@ -50,8 +39,7 @@ public class SongRepository {
         throw new Error("Could not find song");
     }
 
-    public List<Song> searchByTitle(String titlePhrase) {
-        List<Song> songs = getSongs();
+    public static List<Song> searchByTitle(String titlePhrase) {
         List<Song> result = new ArrayList<>();
         for(Song song : songs) {
             if(song.getTitle().contains(titlePhrase)) {

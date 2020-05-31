@@ -18,7 +18,6 @@ import pl.musicplayer.repositories.SongRepository;
 import static pl.musicplayer.fragments.SearchFragment.searchPhrase;
 
 public class SongListFragment extends Fragment {
-    private SongRepository songRepository;
     private RecyclerView recyclerView;
     private View view;
 
@@ -26,7 +25,6 @@ public class SongListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        songRepository = new SongRepository();
 
         LayoutInflater lf = getActivity().getLayoutInflater();
         view =  lf.inflate(R.layout.fragment_playlists, container, false);
@@ -44,9 +42,9 @@ public class SongListFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private Song[] getSongs() {
         if(searchPhrase == null) {
-            return songRepository.getSongs().stream().toArray(n -> new Song[n]);
+            return SongRepository.songs.stream().toArray(n -> new Song[n]);
         } else {
-            return songRepository.searchByTitle(searchPhrase).stream().toArray(n -> new Song[n]);
+            return SongRepository.searchByTitle(searchPhrase).stream().toArray(n -> new Song[n]);
         }
     }
 }
