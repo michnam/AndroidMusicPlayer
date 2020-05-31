@@ -20,8 +20,6 @@ import java.util.List;
  *
  * Storing mp3 files
  * All files should be stored inside /Music/AndroidMusicPlayer folder.
- *
- * Additionally remember to grant permissions to read and write files (Prompt will be added soon)
  */
 public class SongRepository {
     public static List<Song> songs = getAllSongs();
