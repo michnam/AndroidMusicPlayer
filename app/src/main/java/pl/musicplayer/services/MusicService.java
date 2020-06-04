@@ -8,6 +8,11 @@ import android.os.IBinder;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import pl.musicplayer.MainActivity;
 import pl.musicplayer.R;
 
@@ -19,7 +24,6 @@ public class MusicService extends Service {
     public IBinder onBind(Intent intent) {
         return null;
     }
-
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId)

@@ -1,5 +1,7 @@
 package pl.musicplayer.fragments;
 
+import android.Manifest;
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -11,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import org.jetbrains.annotations.Nullable;
@@ -19,6 +23,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 import pl.musicplayer.R;
+import pl.musicplayer.database.DBHelper;
 import pl.musicplayer.repositories.SongRepository;
 
 
@@ -32,6 +37,14 @@ public class PlayerFragment extends Fragment
     private ImageButton btnPrevious;
     private boolean shouldPlay = false;
     private View view;
+    private DBHelper db = null;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        db = new DBHelper(getActivity());
+    }
+
 
     @Nullable
     @Override
@@ -81,11 +94,17 @@ public class PlayerFragment extends Fragment
             }
         });
 
+        ActivityCompat.requestPermissions(this.getActivity(),
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                1);
+
         songTitle = (TextView) view.findViewById(R.id.songTitle);
-        songTitle.setText(SongRepository.songs.get(SongRepository.currentSongId).getTitle());
+//        songTitle.setText(SongRepository.songs.get(SongRepository.currentSongId).getTitle());
+        songTitle.setText(db.getAllSongs().get(SongRepository.currentSongId).getTitle());
 
         songAuthor = (TextView) view.findViewById(R.id.songAuthor);
-        songAuthor.setText(SongRepository.songs.get(SongRepository.currentSongId).getAuthor());
+//        songAuthor.setText(SongRepository.songs.get(SongRepository.currentSongId).getAuthor());
+        songAuthor.setText(db.getAllSongs().get(SongRepository.currentSongId).getAuthor());
 
         setPlayButtonIcon(view);
         return view;
@@ -105,7 +124,7 @@ public class PlayerFragment extends Fragment
     public void previous(View v) throws IOException {
         SongRepository.currentSongId--;
         if (SongRepository.currentSongId < 0)
-            SongRepository.currentSongId = SongRepository.songs.size() - 1;
+            SongRepository.currentSongId = db.getAllSongs().size() - 1;
         reloadFragment(this);
         setPlayButtonIcon(v);
         stop(v);
@@ -114,7 +133,7 @@ public class PlayerFragment extends Fragment
 
     public void next(View v) throws IOException {
         SongRepository.currentSongId++;
-        if (SongRepository.currentSongId >= SongRepository.songs.size())
+        if (SongRepository.currentSongId >= db.getAllSongs().size())
             SongRepository.currentSongId = 0;
         reloadFragment(this);
         setPlayButtonIcon(v);
@@ -127,7 +146,7 @@ public class PlayerFragment extends Fragment
         if(mediaPlayer == null)
         {
             mediaPlayer = new MediaPlayer();
-            String filePath = Environment.getExternalStorageDirectory() + SongRepository.getById(SongRepository.currentSongId).getPath();
+            String filePath = db.getFilePath(SongRepository.currentSongId);
             Uri myUri = Uri.parse("file://" + filePath);
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.setDataSource(Objects.requireNonNull(this.getContext()), myUri);

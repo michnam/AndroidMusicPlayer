@@ -1,16 +1,20 @@
 package pl.musicplayer.fragments;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import org.jetbrains.annotations.Nullable;
 import pl.musicplayer.R;
+import pl.musicplayer.database.DBHelper;
 import pl.musicplayer.models.Song;
 import pl.musicplayer.models.SongListAdapter;
 import pl.musicplayer.repositories.SongRepository;
@@ -20,6 +24,13 @@ import static pl.musicplayer.fragments.SearchFragment.searchPhrase;
 public class SongListFragment extends Fragment {
     private RecyclerView recyclerView;
     private View view;
+    private DBHelper db = null;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        db = new DBHelper(getActivity());
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Nullable
@@ -42,7 +53,7 @@ public class SongListFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private Song[] getSongs() {
         if(searchPhrase == null) {
-            return SongRepository.songs.stream().toArray(n -> new Song[n]);
+            return db.getAllSongs().stream().toArray(n -> new Song[n]);
         } else {
             return SongRepository.searchByTitle(searchPhrase).stream().toArray(n -> new Song[n]);
         }
