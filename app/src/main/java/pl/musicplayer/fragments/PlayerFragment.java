@@ -1,12 +1,16 @@
 package pl.musicplayer.fragments;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,10 +29,12 @@ import java.util.Objects;
 import pl.musicplayer.R;
 import pl.musicplayer.database.DBHelper;
 import pl.musicplayer.repositories.SongRepository;
+import pl.musicplayer.services.MusicService;
 
 
 public class PlayerFragment extends Fragment
 {
+    private final static String TAG = "PlayerFragment";
     private MediaPlayer mediaPlayer;
     private TextView songTitle;
     private TextView songAuthor;
@@ -39,10 +45,22 @@ public class PlayerFragment extends Fragment
     private View view;
     private DBHelper db = null;
 
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int datapassed = intent.getIntExtra("DATAPASSED", 0);
+            Log.i(TAG,"Get new song id from service: " + datapassed);
+        }
+    };
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         db = new DBHelper(getActivity());
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(MusicService.MY_ACTION);
+        getActivity().registerReceiver(broadcastReceiver, intentFilter);
     }
 
 
@@ -200,5 +218,12 @@ public class PlayerFragment extends Fragment
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onStop()
+    {
+        super.onStop();
+        getActivity().unregisterReceiver(broadcastReceiver);
     }
 }
