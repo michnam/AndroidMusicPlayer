@@ -15,23 +15,16 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-
 import pl.musicplayer.MainActivity;
 import pl.musicplayer.R;
-import pl.musicplayer.database.DBHelper;
 import pl.musicplayer.repositories.SongRepository;
 
 import static pl.musicplayer.App.CHANNEL_ID;
 
 public class MusicService extends Service {
     private static final String TAG = "MusicService";
-    private DBHelper db;
     private MediaPlayer mp;
+    private SongRepository db;
     public final static String MY_ACTION = "MY_ACTION";
 
     @Nullable
@@ -44,8 +37,7 @@ public class MusicService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId)
     {
         pushForeground();
-        db = new DBHelper(this);
-
+        db = new SongRepository(this.getApplicationContext());
         playTest(); // TEST
 
         return START_NOT_STICKY;
@@ -85,11 +77,11 @@ public class MusicService extends Service {
         mp.setOnCompletionListener(mp ->
         {
             Log.i(TAG, "MediaPlayer.onCompletion");
-            SongRepository.currentSongId++;
+            SongRepository.currentSong++;
             playTest();
         });
 
-        String filePath = db.getFilePath(SongRepository.currentSongId);
+        String filePath = db.getSongById(SongRepository.currentSong).getPath();
         Uri myUri = Uri.parse("file://" + filePath);
         Log.i(TAG, "Plaing file with path: " + myUri);
         mp.setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build());
@@ -98,10 +90,10 @@ public class MusicService extends Service {
             mp.setDataSource(String.valueOf(myUri));
             mp.prepare();
             mp.start();
-            updateNotification("Playing song with id: " + SongRepository.currentSongId);
+            updateNotification("Playing song with id: " + SongRepository.currentSong);
             Intent intent = new Intent();
             intent.setAction(MY_ACTION);
-            intent.putExtra("DATAPASSED", SongRepository.currentSongId);
+            intent.putExtra("DATAPASSED", SongRepository.currentSong);
             sendBroadcast(intent);
         }
         catch(Exception e)
