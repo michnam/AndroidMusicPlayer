@@ -36,9 +36,10 @@ public class Song {
     private String title;
     private String author;
     private String path;
+    public static String pathToAppFolder = "/storage/emulated/0/Android/media/pl.musicplayer/";
 
     public Song(String title, int id) {
-        this.path = "/storage/emulated/0/Android/media/pl.musicplayer/" + title;
+        this.path = pathToAppFolder + title;
         this.id = id;
         this.author = title.split("_")[0];
         this.title = title.split("_")[1].replace("-", " ").split("\\.")[0];

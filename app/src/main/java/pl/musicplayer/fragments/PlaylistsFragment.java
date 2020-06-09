@@ -10,9 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import org.jetbrains.annotations.Nullable;
 import pl.musicplayer.R;
-import pl.musicplayer.database.DBHelper;
-import pl.musicplayer.models.Song;
 import pl.musicplayer.repositories.SongRepository;
+import pl.musicplayer.models.Song;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +19,12 @@ import java.util.List;
 
 public class PlaylistsFragment extends Fragment {
     private List<Song> songList = new ArrayList<>();
-    private DBHelper db = null;
+    private SongRepository db = null;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        db = new DBHelper(getActivity());
+        db = new SongRepository(getActivity());
     }
 
     @Nullable

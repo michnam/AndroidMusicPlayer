@@ -14,22 +14,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import org.jetbrains.annotations.Nullable;
 import pl.musicplayer.R;
-import pl.musicplayer.database.DBHelper;
+import pl.musicplayer.repositories.SongRepository;
 import pl.musicplayer.models.Song;
 import pl.musicplayer.models.SongListAdapter;
-import pl.musicplayer.repositories.SongRepository;
 
 import static pl.musicplayer.fragments.SearchFragment.searchPhrase;
 
 public class SongListFragment extends Fragment {
     private RecyclerView recyclerView;
     private View view;
-    private DBHelper db = null;
+    private SongRepository db = null;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        db = new DBHelper(getActivity());
+        db = new SongRepository(getActivity());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -55,7 +54,7 @@ public class SongListFragment extends Fragment {
         if(searchPhrase == null) {
             return db.getAllSongs().stream().toArray(n -> new Song[n]);
         } else {
-            return SongRepository.searchByTitle(searchPhrase).stream().toArray(n -> new Song[n]);
+            return db.searchByTitle(searchPhrase).stream().toArray(n -> new Song[n]);
         }
     }
 }
