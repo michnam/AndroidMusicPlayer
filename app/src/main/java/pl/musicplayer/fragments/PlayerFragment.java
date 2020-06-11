@@ -95,9 +95,10 @@ public class PlayerFragment extends Fragment
         intentFilter.addAction(MusicService.NEXT_SONG);
         getActivity().registerReceiver(broadcastReceiver, intentFilter);
 
-        if(songRepository.getCurrentSong().getId() != MusicService.currentSongId)
-            if(musicService != null)
-                musicService.newSelected();
+        if(songRepository.getAllSongs().size() > 0)
+            if(songRepository.getCurrentSong().getId() != MusicService.currentSongId)
+                if(musicService != null)
+                    musicService.newSelected();
     }
 
     @Override
@@ -123,7 +124,8 @@ public class PlayerFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                callPlayOrPause();
+                if(songRepository.getAllSongs().size() > 0)
+                    callPlayOrPause();
             }
         });
         btnPrevious.setOnClickListener(new View.OnClickListener()
@@ -131,7 +133,8 @@ public class PlayerFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                callGoPrevious();
+                if(songRepository.getAllSongs().size() > 0)
+                    callGoPrevious();
             }
         });
         btnNext.setOnClickListener(new View.OnClickListener()
@@ -139,7 +142,8 @@ public class PlayerFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                callGoNext();
+                if(songRepository.getAllSongs().size() > 0)
+                    callGoNext();
             }
         });
 
@@ -148,18 +152,21 @@ public class PlayerFragment extends Fragment
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                 1);
 
-        songTitle = (TextView) view.findViewById(R.id.songTitle);
-        songTitle.setText(songRepository.getAllSongs().get(SongRepository.currentSong).getTitle());
+        if(songRepository.getAllSongs().size() > 0)
+        {
+            songTitle = (TextView) view.findViewById(R.id.songTitle);
+            songTitle.setText(songRepository.getAllSongs().get(SongRepository.currentSong).getTitle());
 
-        songAuthor = (TextView) view.findViewById(R.id.songAuthor);
-        songAuthor.setText(songRepository.getAllSongs().get(SongRepository.currentSong).getAuthor());
-
+            songAuthor = (TextView) view.findViewById(R.id.songAuthor);
+            songAuthor.setText(songRepository.getAllSongs().get(SongRepository.currentSong).getAuthor());
+        }
         setPlayButtonIcon(view);
         return view;
     }
 
     private void callPlayOrPause()
     {
+
         musicService.playOrPause();
         reloadFragment(this);
     }

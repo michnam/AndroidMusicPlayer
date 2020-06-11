@@ -26,6 +26,7 @@ public class App extends Application
     private void createNotificationChannel()
     {
         NotificationChannel serviceChannel = new NotificationChannel(CHANNEL_ID, "AndroidMusicPLayer", NotificationManager.IMPORTANCE_DEFAULT);
+        serviceChannel.setSound(null, null);
         NotificationManager manager = getSystemService(NotificationManager.class);
         manager.createNotificationChannel(serviceChannel);
     }
