@@ -134,11 +134,9 @@ public class SongRepository extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         @SuppressLint("Recycle") Cursor res = db.rawQuery("select * from song where name like ?", new String[] {"%" + phrase + "%"});
         res.moveToFirst();
-        int counter = 0;
         while(!res.isAfterLast()){
-            songs.add(new Song(res.getString(res.getColumnIndex("name")), counter));
+            songs.add(new Song(res.getString(res.getColumnIndex("name")), Integer.parseInt(res.getString(res.getColumnIndex("id"))) - 1));
             res.moveToNext();
-            counter++;
         }
         if(songs.size() > 0)
             Log.i(TAG, "searchByTitle -> song id: " + songs.get(0).getId());
