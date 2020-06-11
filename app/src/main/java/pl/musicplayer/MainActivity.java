@@ -53,9 +53,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
-                    System.out.println("IF 1");
                 } else {
-                    System.out.println("IF 2");
 //                    List<Song> tmp = SongRepository.songs;
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.

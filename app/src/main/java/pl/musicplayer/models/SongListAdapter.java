@@ -2,6 +2,7 @@ package pl.musicplayer.models;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import pl.musicplayer.fragments.PlayerFragment;
 
 
 public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ViewHolder> {
+    private final String TAG = "SongListAdapter";
     private Song[] listdata;
     private Context context;
 
@@ -52,6 +54,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.ViewHo
                             .commit();
                 }
                 SongRepository.currentSong = myListData.getId();
+                Log.i(TAG, "Choosen song with id: " + myListData.getId() + " and name: " + myListData.getAuthor() + " - " + myListData. getTitle());
                 }
             });
         }

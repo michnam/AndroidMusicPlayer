@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import pl.musicplayer.models.Song;
  * All files should be stored inside /storage/emulated/0/Android/media/pl.musicplayer/ folder.
  */
 public class SongRepository extends SQLiteOpenHelper {
+    private final String TAG = "SongRepository";
     private static final String DATABASE_NAME = "AndroidMusicPlayer";
     public static int currentSong = 0;
 
@@ -138,6 +140,8 @@ public class SongRepository extends SQLiteOpenHelper {
             res.moveToNext();
             counter++;
         }
+        if(songs.size() > 0)
+            Log.i(TAG, "searchByTitle -> song id: " + songs.get(0).getId());
         return songs;
     }
 }
