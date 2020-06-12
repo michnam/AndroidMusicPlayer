@@ -35,52 +35,19 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
         startService();
-        requestFileReadWritePermissions();
-//        ActivityCompat.requestPermissions(MainActivity.this,
-//                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-//                1);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case 1: {
-
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-                } else {
-//                    List<Song> tmp = SongRepository.songs;
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                    Toast.makeText(MainActivity.this, "Permission denied to read your External storage", Toast.LENGTH_SHORT).show();
-                }
-                return;
-            }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
-    }
-
-    private void requestFileReadWritePermissions() {
-        System.out.println("REQ");
-        if (ActivityCompat.checkSelfPermission(this.getApplicationContext(),
-                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            System.out.println("IF 1");
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-        }
-        if (ActivityCompat.checkSelfPermission(this.getApplicationContext(),
-                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            System.out.println("IF 2");
+        if (!requestFileReadWritePermissions()) {
             finish();
             System.exit(0);
         }
+    }
 
+    private boolean requestFileReadWritePermissions() {
+        if (ActivityCompat.checkSelfPermission(this.getApplicationContext(),
+                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+            return true;
+        }
+        return false;
     }
 
     public void startService()
