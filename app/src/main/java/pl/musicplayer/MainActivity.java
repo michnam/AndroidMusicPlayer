@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onCreate(savedInstanceState);
         initializeView();
         getSupportActionBar().hide();
-
         startService();
     }
 

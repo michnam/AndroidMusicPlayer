@@ -7,9 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -23,10 +20,8 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.io.IOException;
-import java.util.Objects;
 
 import pl.musicplayer.R;
 import pl.musicplayer.repositories.SongRepository;
@@ -36,13 +31,11 @@ import pl.musicplayer.services.MusicService;
 public class PlayerFragment extends Fragment
 {
     private final String TAG = "PlayerFragment";
-    private MediaPlayer mediaPlayer;
     private TextView songTitle;
     private TextView songAuthor;
     private ImageButton btnPlay;
     private ImageButton btnNext;
     private ImageButton btnPrevious;
-    private boolean shouldPlay = false;
     private View view;
     private SongRepository songRepository = null;
 
@@ -61,7 +54,7 @@ public class PlayerFragment extends Fragment
         public void onServiceDisconnected(ComponentName name){ Log.i(TAG, "Serivce unbind"); }
     };
 
-    BroadcastReceiver broadcastReceiver = new BroadcastReceiver()
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver()
     {
         @Override
         public void onReceive(Context context, Intent intent)
@@ -70,7 +63,7 @@ public class PlayerFragment extends Fragment
         }
     };
 
-    public void callReloadFragment()
+    private void callReloadFragment()
     {
         reloadFragment(this);
     }
@@ -110,7 +103,7 @@ public class PlayerFragment extends Fragment
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    public View onCreateView(@NotNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         LayoutInflater lf = getActivity().getLayoutInflater();
         view = lf.inflate(R.layout.fragment_player, container, false);
@@ -166,7 +159,6 @@ public class PlayerFragment extends Fragment
 
     private void callPlayOrPause()
     {
-
         musicService.playOrPause();
         reloadFragment(this);
     }
@@ -179,96 +171,19 @@ public class PlayerFragment extends Fragment
 
     private void callGoPrevious()
     {
-        musicService.goNext();
+        musicService.goPrevious();
         reloadFragment(this);
     }
-
-
-
-
-
-//    public void playOrPause(View v) throws IOException
-//    {
-//        if(shouldPlay)
-//        {
-//            pause(v);
-//        } else
-//        {
-//            shouldPlay = true;
-//            play(v);
-//        }
-//    }
-//
-//    public void previous(View v) throws IOException
-//    {
-//        SongRepository.currentSong--;
-//        if(SongRepository.currentSong < 0)
-//            SongRepository.currentSong = songRepository.getAllSongs().size() - 1;
-//        reloadFragment(this);
-//        setPlayButtonIcon(v);
-//        stop(v);
-//        play(v);
-//    }
-//
-//    public void next(View v) throws IOException
-//    {
-//        SongRepository.currentSong++;
-//        if(SongRepository.currentSong >= songRepository.getAllSongs().size())
-//            SongRepository.currentSong = 0;
-//        reloadFragment(this);
-//        setPlayButtonIcon(v);
-//        stop(v);
-//        play(v);
-//    }
-//
-//    private void play(View v) throws IOException
-//    {
-//        shouldPlay = true;
-//        if(mediaPlayer == null)
-//        {
-//            mediaPlayer = new MediaPlayer();
-//            String filePath = songRepository.getSongById(SongRepository.currentSong).getPath();
-//            Uri myUri = Uri.parse("file://" + filePath);
-//            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-//            mediaPlayer.setDataSource(Objects.requireNonNull(this.getContext()), myUri);
-//            mediaPlayer.prepare();
-//        }
-//        mediaPlayer.start();
-//        setPlayButtonIcon(v);
-//    }
-//
-//    private void stop(View v)
-//    {
-//        if(mediaPlayer != null)
-//        {
-//            mediaPlayer.stop();
-//            mediaPlayer.release();
-//            mediaPlayer = null;
-//        }
-//    }
-//
-//    private void pause(View v)
-//    {
-//        if(mediaPlayer != null)
-//        {
-//            shouldPlay = false;
-//            mediaPlayer.pause();
-//            setPlayButtonIcon(v);
-//        }
-//    }
 
     private void setPlayButtonIcon(View v)
     {
         if(MusicService.playingMusic)
-        {
             btnPlay.setImageResource(R.drawable.pause);
-        } else
-        {
+        else
             btnPlay.setImageResource(R.drawable.play);
-        }
     }
 
-    private boolean reloadFragment(Fragment fragment)
+    private void reloadFragment(Fragment fragment)
     {
         if(fragment != null)
         {
@@ -278,8 +193,6 @@ public class PlayerFragment extends Fragment
                     .detach(fragment)
                     .attach(fragment)
                     .commit();
-            return true;
         }
-        return false;
     }
 }

@@ -31,9 +31,6 @@ public class MusicService extends Service {
     public static int currentSongId;
     public final static String NEXT_SONG = "MY_ACTION";
 
-
-
-
     public class LocalBinder extends Binder
     {
         public MusicService getService()
@@ -55,8 +52,6 @@ public class MusicService extends Service {
     {
         pushForeground();
         songRepository = new SongRepository(this.getApplicationContext());
-        //playTest(); // TEST
-
         return START_NOT_STICKY;
     }
 
@@ -84,8 +79,6 @@ public class MusicService extends Service {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(364, notification);
     }
-
-
 
     public void playNew()
     {
@@ -116,10 +109,7 @@ public class MusicService extends Service {
             playingMusic = true;
             currentSongId = currentSong.getId();
         }
-        catch(Exception e)
-        {
-            Log.i(TAG, "Couldn't play song, no file with that path.");
-        }
+        catch(Exception e) { Log.i(TAG, "Couldn't play song, no file with that path."); }
     }
 
     public void playOrPause()
@@ -184,49 +174,6 @@ public class MusicService extends Service {
                 mp.stop();
             mp = null;
         }
-    }
-
-
-
-
-
-
-
-
-    /**
-     * TEST
-     */
-    public void playTest()
-    {
-        mp = new MediaPlayer();
-        mp.setOnCompletionListener(mp ->
-        {
-            Log.i(TAG, "MediaPlayer -> playTest -> onCompletion");
-            SongRepository.currentSong++;
-            playTest();
-        });
-
-        String filePath = songRepository.getSongById(SongRepository.currentSong).getPath();
-        Uri myUri = Uri.parse("file://" + filePath);
-        Log.i(TAG, "Plaing file with path: " + myUri);
-        mp.setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build());
-        try
-        {
-            mp.setDataSource(String.valueOf(myUri));
-            mp.prepare();
-            mp.start();
-            updateNotification("Playing song with id: " + SongRepository.currentSong);
-            Intent intent = new Intent();
-            intent.setAction(NEXT_SONG);
-            intent.putExtra("DATAPASSED", SongRepository.currentSong);
-            sendBroadcast(intent);
-        }
-        catch(Exception e)
-        {
-            Log.i(TAG, "Couldn't play song, no file with that path.");
-            e.printStackTrace();
-        }
-
     }
 
 }
