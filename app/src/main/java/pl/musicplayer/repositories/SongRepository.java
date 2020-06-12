@@ -79,11 +79,7 @@ public class SongRepository extends SQLiteOpenHelper {
         File[] files = file.listFiles();
 
         assert files != null;
-        for (int i = 0; i < files.length; i++) {
-            localSongs.add(new Song(files[i].getName(), i));
-        }
-
-        if (localSongs.size() != dbSongs.size()) {
+        if (files.length != dbSongs.size()) {
             this.onUpgrade(this.getReadableDatabase(), 1, 1);
             for (File value : files)
                 this.insertFilePath(value.getName());
