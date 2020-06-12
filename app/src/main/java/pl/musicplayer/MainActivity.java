@@ -33,21 +33,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         initializeView();
         getSupportActionBar().hide();
 
-
         startService();
-        if (!requestFileReadWritePermissions()) {
-            finish();
-            System.exit(0);
-        }
-    }
-
-    private boolean requestFileReadWritePermissions() {
-        if (ActivityCompat.checkSelfPermission(this.getApplicationContext(),
-                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-            return true;
-        }
-        return false;
     }
 
     public void startService()
