@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
@@ -24,11 +25,46 @@ import pl.musicplayer.models.Song;
 public class SongRepository extends SQLiteOpenHelper {
     private final String TAG = "SongRepository";
     private static final String DATABASE_NAME = "AndroidMusicPlayer";
+    private static final String DATABASE_PATH = "/data/user/0/pl.musicplayer/databases/AndroidMusicPlayer";
     public static int currentSong = 0;
 
     public SongRepository(Context context) {
         super(context, DATABASE_NAME, null, 1);
-        checkForNewSongs(context);
+        if (checkDatabase())
+            checkForNewSongs(context);
+        else {
+            onUpgrade(this.getWritableDatabase(), 1, 1);
+            insertAllSongs(context);
+        }
+    }
+
+    /**
+     * Check if the database exist and can be read.
+     *
+     * @return true if it exists and can be read, false if it doesn't
+     */
+    private boolean checkDatabase() {
+        SQLiteDatabase checkDB = null;
+        try {
+            checkDB = SQLiteDatabase.openDatabase(DATABASE_PATH, null,
+                    SQLiteDatabase.OPEN_READONLY);
+            checkDB.close();
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+        }
+        return checkDB != null;
+    }
+
+    /**
+     * Reads all songs from device and inserts them into database
+     * @param context
+     */
+    private void insertAllSongs(Context context) {
+        File file = new File(context.getExternalMediaDirs()[0].getPath());
+        File[] files = file.listFiles();
+        assert files != null;
+        for (File value : files)
+            this.insertFilePath(value.getName());
     }
 
     /**
@@ -49,8 +85,8 @@ public class SongRepository extends SQLiteOpenHelper {
 
         if (localSongs.size() != dbSongs.size()) {
             this.onUpgrade(this.getReadableDatabase(), 1, 1);
-            for (Song song : localSongs)
-                this.insertFilePath(song.getTitle());
+            for (File value : files)
+                this.insertFilePath(value.getName());
         }
     }
 

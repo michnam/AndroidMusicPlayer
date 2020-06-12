@@ -154,7 +154,8 @@ public class MusicService extends Service {
             playNew();
         else
         {
-            mp.stop();
+            if (mp != null)
+                mp.stop();
             mp = null;
         }
 
@@ -167,7 +168,8 @@ public class MusicService extends Service {
             playNew();
         else
         {
-            mp.stop();
+            if (mp != null)
+                mp.stop();
             mp = null;
         }
     }

@@ -41,7 +41,11 @@ public class Song {
     public Song(String title, int id) {
         this.path = pathToAppFolder + title;
         this.id = id;
-        this.author = title.split("_")[0];
-        this.title = title.split("_")[1].replace("-", " ").split("\\.")[0];
+        String[] tmp = title.split("_");
+        this.author = tmp[0];
+        if (tmp[1].contains("-"))
+            this.title = tmp[1].replace("-", " ").split("\\.")[0];
+        else
+            this.title = tmp[1].split("\\.")[0];
     }
 }
